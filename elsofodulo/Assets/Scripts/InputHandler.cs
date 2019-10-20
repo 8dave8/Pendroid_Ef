@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +9,10 @@ public class InputHandler : MonoBehaviour
     private InputField InSzelepSzam;
     [SerializeField]
     private InputField InSzelepSebesseg;
+    [SerializeField]
+    private GameObject InputField;
+    [SerializeField]
+    private GameObject SimulationField;
 
     public static Szelep[] szelepek;
 
@@ -26,6 +28,11 @@ public class InputHandler : MonoBehaviour
 
             for (int i = 0; i < szelepek.Length; i++) 
                 szelepek[i] = new Szelep(szelepSebesseg);
+
+            InputField.SetActive(false);
+            SimulationField.SetActive(true);
+
+            Simulation.SzelepSet(szelepek);
         }
         catch (Exception e) { Debug.Log(e); }
     }
