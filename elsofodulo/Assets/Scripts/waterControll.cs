@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class waterControll : MonoBehaviour
 {
@@ -24,16 +24,18 @@ public class waterControll : MonoBehaviour
     public Slider SLWaterIN;
     public Text CurrentWaterIn;
     public Transform Water;
+    public Text Bearamlas;
 
     private float maxVizy;
     private float ido = 0f;
     private const float maxViz = 1000f;
     private float CurrentWater = 0;
+    private float mozgas = 500 - 180;
 
     void Start()
     {
         maxVizy = Water.transform.localScale.y;
-        Water.localPosition = new Vector2(Water.localPosition.x, Water.localPosition.y-50);
+        Water.localPosition = new Vector2(Water.localPosition.x, 180);
         bekeres.SetActive(true);
         Simulation.SetActive(false);
     }
@@ -52,8 +54,7 @@ public class waterControll : MonoBehaviour
             
 
             //Viz img beállitása
-            Water.localScale = new Vector2(Water.localScale.x, CurrentWater/20000*Time.deltaTime);
-            if (SLWaterIN.value != 0)  Water.localPosition = new Vector2(Water.localPosition.x, Water.localPosition.y+CurrentWater / 100000*Time.deltaTime);
+            Water.localPosition = new Vector2(Water.localPosition.x, 180+(mozgas/1000000)*CurrentWater);
 
             Kiiras(vizmagassag);
         }
@@ -65,11 +66,10 @@ public class waterControll : MonoBehaviour
         {
 
         }
-        else if (vizmagassag > 9.1f)
+        else if (vizmagassag > 9f)
         {
-            float minusViz = atfolyok * (atfolyomeret * 1000) * Time.deltaTime;
+            float minusViz = atfolyok * (atfolyomeret * 1000);
             CurrentWater -= atfolyok;
-            Water.localPosition = new Vector2(Water.localPosition.x, Water.localPosition.y - atfolyok*Time.deltaTime);
         }
 
         if (CurrentWater >= 1000000)
@@ -83,9 +83,10 @@ public class waterControll : MonoBehaviour
     {
         SimTime.text = $"Szimuláció ideje: {Mathf.Round(ido)}";
         CurrentWaterIn.text = SLWaterIN.value.ToString() + " L/mp";
-        OsszViz.text = "Vizmennyiseg: " + CurrentWater.ToString();
-        NyitottLefolyoSzam.text = "Bekapcsolt lefolyók száma: " + atfolyok.ToString();
-        Vizmagassag.text = "Vizmagasság: " + vizmagassag.ToString();
+        OsszViz.text = CurrentWater.ToString()+" L";
+        NyitottLefolyoSzam.text = atfolyok.ToString();
+        Vizmagassag.text = vizmagassag.ToString()+" m";
+        Bearamlas.text = SLWaterIN.value.ToString()+" L";
     }
     public void kezdes()
     {
@@ -117,6 +118,15 @@ public class waterControll : MonoBehaviour
             Debug.Log(e);
             throw;
         }
+    }
+    public void btKilepes()
+    {
+        Application.Quit();
+    }
+    public void goBack()
+    {
+        SceneManager.LoadScene("SampleScene");
+        Debug.Log("kilep");
     }
     public static void StartSim(GameObject bekeres, GameObject Simulation)
     {
