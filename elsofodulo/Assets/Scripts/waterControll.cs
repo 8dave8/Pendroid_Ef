@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+//ha ezt valaki meglátja és kiég a clean code teljes hiányától => nem én voltam    -Yiselita
+
 public class waterControll : MonoBehaviour
 {
     //ToStart
@@ -13,8 +15,8 @@ public class waterControll : MonoBehaviour
     public Text atfolyoszam;
     public Text atfolyomerett;
 
-    private static int atfolyok;
-    private static float atfolyomeret;
+    private int atfolyok;
+    private double atfolyomeret;
     
     //Simulation
     public Text SimTime;
@@ -25,11 +27,13 @@ public class waterControll : MonoBehaviour
     public Text CurrentWaterIn;
     public Transform Water;
     public Text Bearamlas;
+    public Text MaxBearamlas;
+    public GameObject Warning;
 
     private float maxVizy;
     private float ido = 0f;
     private const float maxViz = 1000f;
-    private float CurrentWater = 0;
+    private float CurrentWater = 900000;
     private float mozgas = 500 - 180;
 
     void Start()
@@ -47,8 +51,8 @@ public class waterControll : MonoBehaviour
         {
             //Szamolasok
             ido += Time.deltaTime;
-            CurrentWater += SLWaterIN.value * Time.deltaTime;
-            float vizmagassag = CurrentWater / 100000;
+            CurrentWater += SLWaterIN.value / 3.6f; //* Time.deltaTime;
+            double vizmagassag = Math.Round((CurrentWater / 100000), 2); //ez legyen double, meg inkább kerekített
 
             vizszintControll(vizmagassag);
             
@@ -60,17 +64,13 @@ public class waterControll : MonoBehaviour
         }
     }
 
-    private void vizszintControll(float vizmagassag)
+    private void vizszintControll(double vizmagassag)
     {
-        if (vizmagassag < 8.9f)
-        {
+        Warning.SetActive(((SLWaterIN.value) > (atfolyok * atfolyomeret)));
 
-        }
-        else if (vizmagassag > 9f)
-        {
-            float minusViz = atfolyok * (atfolyomeret * 1000);
-            CurrentWater -= atfolyok;
-        }
+        CurrentWater -= (float)(atfolyok * atfolyomeret) / 3.6f;
+        
+
 
         if (CurrentWater >= 1000000)
         {
@@ -79,22 +79,21 @@ public class waterControll : MonoBehaviour
         }
     }
 
-    private void Kiiras(float vizmagassag)
+    private void Kiiras(double vizmagassag)
     {
         SimTime.text = $"Szimuláció ideje: {Mathf.Round(ido)}";
-        CurrentWaterIn.text = SLWaterIN.value.ToString() + " L/mp";
+        CurrentWaterIn.text = Math.Round(SLWaterIN.value, 2).ToString() + " m^3/h";
         OsszViz.text = CurrentWater.ToString()+" L";
         NyitottLefolyoSzam.text = atfolyok.ToString();
         Vizmagassag.text = vizmagassag.ToString()+" m";
-        Bearamlas.text = SLWaterIN.value.ToString()+" L";
+        Bearamlas.text = (SLWaterIN.value * 3.6f).ToString()+" L";
     }
     public void kezdes()
     {
         try
         {
             atfolyok = int.Parse(atfolyoszam.text);
-            string x = atfolyomerett.text.Replace(',', '.');
-            atfolyomeret = float.Parse(x);
+            atfolyomeret = float.Parse(atfolyomerett.text.Replace(',', '.'));
             Debug.Log("atfolyomerett" + atfolyomeret);
             try
             {
@@ -107,31 +106,34 @@ public class waterControll : MonoBehaviour
                 }
                 Debug.Log(atfolyok + " " + atfolyomeret);
             }
-            catch (System.Exception e)
-            {
-                Debug.Log(e);
-                throw;
-            }
+            catch (Exception) { } // ezeket innen leszedtem mert ennek a debugolásán
         }
-        catch (System.Exception e)
-        {
-            Debug.Log(e);
-            throw;
-        }
+        catch (Exception) { }     // rég túl vagyunk azt így rövidebb a kód
     }
-    public void btKilepes()
+
+
+    public void StartSim(GameObject bekeres, GameObject Simulation) // a skálázás miatt leszedtem a staticot, nem kell az btw
     {
-        Application.Quit();
+        bekeres.SetActive(false);
+        Simulation.SetActive(true);
+
+        SLWaterIN.maxValue = (float)Math.Round(atfolyok * atfolyomeret * 1.25, 2);
+        MaxBearamlas.text = SLWaterIN.maxValue.ToString();
+        /*így skálászva lesz, nem lesz olyan lassú a szimuláció
+         * mivel skálázva van, nem fog olyan gyorsan megtelni a víz (kifolyni eddig se folyt gyorsan)
+         * Szóval nyugodtan kezdődhet 9 méteres vízmagassággal
+         * BTW azért van random osztogatás 3,6al mert át van váltva a m^3/h l/s-re
+         * tudom hogy még átláthatatlanabb de működik eskü
+         */
     }
     public void goBack()
     {
         SceneManager.LoadScene("SampleScene");
         Debug.Log("kilep");
     }
-    public static void StartSim(GameObject bekeres, GameObject Simulation)
+    public void btKilepes()
     {
-        bekeres.SetActive(false);
-        Simulation.SetActive(true);
+        Application.Quit();
     }
 }
 
