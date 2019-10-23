@@ -29,12 +29,16 @@ public class waterControll : MonoBehaviour
     public Text Bearamlas;
     public Text MaxBearamlas;
     public GameObject Warning;
+    public Text VizmellettiVizmagassag;
+    public Text VizmellettiVizmennyiseg;
 
     private float maxVizy;
-    private float ido = 0f;
     private const float maxViz = 1000f;
     private float CurrentWater = 900000;
     private float mozgas = 500 - 180;
+
+    private float  minutes , seconds, milliseconds = 0f;
+    private string minutesS , secondsS ,  millisecondsS = "";
 
     void Start()
     {
@@ -49,7 +53,7 @@ public class waterControll : MonoBehaviour
         if (Simulation.activeSelf)
         {
             //Szamolasok
-            ido += Time.deltaTime;
+            Counter();
             CurrentWater += SLWaterIN.value / 3.6f; //* Time.deltaTime;
             double vizmagassag = Math.Round((CurrentWater / 100000), 2); //ez legyen double, meg inkább kerekített
 
@@ -63,14 +67,56 @@ public class waterControll : MonoBehaviour
         }
     }
 
+    private void Counter()
+    {
+        if (milliseconds >= 100)
+        {
+            if (seconds >= 59)
+            {
+                minutes++;
+                seconds = 0;
+            }
+            else if (seconds < 59)
+            {
+                seconds++;
+            }
+            milliseconds = 0;
+        }
+        milliseconds += Time.deltaTime * 100;
+        if (minutes < 10)
+        {
+            minutesS = "0" +minutes;
+        }
+        else
+        {
+            minutesS = "" +minutes;
+        }
+
+        if (seconds < 10)
+        {
+            secondsS = "0" +seconds;
+        }
+        else
+        {
+            secondsS = "" +seconds;
+        }
+
+        if ((int)milliseconds < 10)
+        {
+            millisecondsS = "0" +(int)milliseconds;
+        }
+        else
+        {
+            millisecondsS = "" +(int)milliseconds;
+        }
+        SimTime.text = ($"{minutesS}:{secondsS}:{millisecondsS}");
+    } //Eskü nem lopott
+
+
     private void vizszintControll(double vizmagassag)
     {
         Warning.SetActive(((SLWaterIN.value) > (atfolyok * atfolyomeret)));
-
         CurrentWater -= (float)(atfolyok * atfolyomeret) / 3.6f;
-        
-
-
         if (CurrentWater >= 1000000)
         {
             SLWaterIN.value = 0;
@@ -80,12 +126,16 @@ public class waterControll : MonoBehaviour
 
     private void Kiiras(double vizmagassag)
     {
-        SimTime.text = $"Szimuláció ideje: {Mathf.Round(ido)}";
+       
+        
         CurrentWaterIn.text = Math.Round(SLWaterIN.value, 2).ToString() + " m^3/h";
         OsszViz.text = CurrentWater.ToString()+" L";
+        VizmellettiVizmennyiseg.text = CurrentWater.ToString()+" L";
         NyitottLefolyoSzam.text = atfolyok.ToString();
         Vizmagassag.text = vizmagassag.ToString()+" m";
+        VizmellettiVizmagassag.text = vizmagassag.ToString() + " m";
         Bearamlas.text = (SLWaterIN.value * 3.6f).ToString()+" L";
+        
     }
     public void kezdes()
     {
