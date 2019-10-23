@@ -40,25 +40,25 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9674}
+      Script: {instanceID: 9676}
     - Class: 114
-      Script: {instanceID: 9836}
+      Script: {instanceID: 9838}
     - Class: 114
-      Script: {instanceID: 9876}
+      Script: {instanceID: 9878}
     - Class: 114
-      Script: {instanceID: 10102}
+      Script: {instanceID: 10104}
     - Class: 114
-      Script: {instanceID: 10276}
+      Script: {instanceID: 10278}
     - Class: 114
-      Script: {instanceID: 10642}
+      Script: {instanceID: 10644}
     - Class: 114
-      Script: {instanceID: 10834}
+      Script: {instanceID: 10836}
     - Class: 114
-      Script: {instanceID: 11116}
+      Script: {instanceID: 11118}
     - Class: 114
-      Script: {instanceID: 11486}
+      Script: {instanceID: 11488}
     - Class: 114
-      Script: {instanceID: 11520}
+      Script: {instanceID: 11522}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -214,7 +214,7 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
-      Hash: b509c50ae2701607e660c80a89e45e14
+      Hash: 764862726d5f09873ab757efbdf9079a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: waterControll
@@ -497,4 +497,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/David/Desktop/elso_8.apk
+  playerPath: D:/Unity/Projects/Pendroid_Ef/elsofodulo/Builds/elsofordulov11.apk
