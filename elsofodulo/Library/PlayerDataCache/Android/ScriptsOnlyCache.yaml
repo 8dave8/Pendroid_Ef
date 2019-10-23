@@ -497,4 +497,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: D:/Unity/Projects/Pendroid_Ef/elsofodulo/Builds/elsofordulov6.apk
+  playerPath: C:/Users/David/Desktop/elso_8.apk
