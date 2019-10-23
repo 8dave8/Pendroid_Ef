@@ -10,6 +10,7 @@ ScriptsOnlyBuild:
     - UnityEditor.Tilemaps.TileDragAndDropManager
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
+    - UnityEditor.TestTools.TestRunner.TestListCacheData
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
@@ -213,7 +214,7 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
-      Hash: da3982b3246ac0d60e623a3216a992d1
+      Hash: b509c50ae2701607e660c80a89e45e14
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: waterControll
@@ -496,4 +497,4 @@ ScriptsOnlyBuild:
   platform: 13
   scenePathNames:
   - Assets/Scenes/SampleScene.unity
-  playerPath: C:/Users/branc/Downloads/1.apk
+  playerPath: D:/Unity/Projects/Pendroid_Ef/elsofodulo/Builds/elsofordulov6.apk

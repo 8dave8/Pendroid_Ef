@@ -44,7 +44,6 @@ public class waterControll : MonoBehaviour
         Simulation.SetActive(false);
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         if (Simulation.activeSelf)
@@ -129,7 +128,6 @@ public class waterControll : MonoBehaviour
     public void goBack()
     {
         SceneManager.LoadScene("SampleScene");
-        Debug.Log("kilep");
     }
     public void btKilepes()
     {
