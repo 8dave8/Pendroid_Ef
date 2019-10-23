@@ -170,6 +170,10 @@ public class waterControll : MonoBehaviour
     {
         Application.Quit();
     }
+    public void ujrakezedes()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
 }
 
 class Szelep
